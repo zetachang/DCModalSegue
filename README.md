@@ -5,7 +5,7 @@ DCModalSegue is a subclass of UIStoryboardSegue which make a slight **pushed bac
 
 ### Screencast
 
-![DCModalSegue GIF Demo](http://d.pr/i/yop9+)
+![DCModalSegue GIF Demo](http://d.pr/i/UaZK+)
 
 ### Installation
 
