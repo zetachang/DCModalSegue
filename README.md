@@ -2,21 +2,37 @@
 
 DCModalSegue is a subclass of UIStoryboardSegue which make a slight **pushed back** animation when presented. The presenting animation is inspired by [Gmail App](https://itunes.apple.com/us/app/gmail-email-from-google/id422689480?mt=8) and [Sunrise Calendar.](https://itunes.apple.com/us/app/sunrise-calendar./id599114150?mt=8)
 
+
 ### Screencast
 
 ![DCModalSegue GIF Demo](http://d.pr/i/yop9+)
 
 ### Installation
 
-TODO
+1. Drag `DCModalSegue` folder to your Xcode project.
+2. Ensure `QuartzCore.framework` is added to your project.
+
 
 ### Usage
 
-TODO
+Create segue in storyboard:
 
-### Contribution
+1. Like normal storyboard segue, **control drag** from one scene (or a control) to the scene you want to present.
+2. Select the segue type as `custom`.
+3. Enter `DCModalSegue` in the `Segue Class` field inside the inspector.
+4. That's it :-)
 
-TODO
+To dismiss the presented view controller, use `[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];` 
+instead of `[self dismissViewControllerAnimated:YES completion:nil];`
+
+There is also an unwind segue action created for you (thus no code is needed to dismiss the controller), 
+you can set up the dismiss action by control drag to the exit icon (see below) and select the action `modalDonePresenting:`.
+
+![Control Drag to Exit](http://d.pr/i/78KD+)
+
+### Thanks
+
+Some ideas from [KNSemiModalViewController](https://github.com/kentnguyen/KNSemiModalViewController) and [GC3DFlipTransitionStyleSegue](https://github.com/GlennChiu/GC3DFlipTransitionStyleSegue).
 
 ### Contact
 
