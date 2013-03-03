@@ -30,6 +30,17 @@ you can set up the dismiss action by control drag to the exit icon (see below) a
 
 ![Control Drag to Exit](http://d.pr/i/78KD+)
 
+### Notice
+
+* ARC only
+* Unwind segue is only provided in iOS 6
+* Now support only portrait iPhone
+
+### Contributions
+
+As a experimental project, there are a lot could be done better. 
+So feel free to fork or submit an issue. :-)
+
 ### Thanks
 
 Some ideas from [KNSemiModalViewController](https://github.com/kentnguyen/KNSemiModalViewController) and [GC3DFlipTransitionStyleSegue](https://github.com/GlennChiu/GC3DFlipTransitionStyleSegue).
