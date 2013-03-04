@@ -144,8 +144,9 @@
     UIGraphicsEndImageContext();
     
     if ([UIApplication sharedApplication].statusBarHidden == NO) {
+        CGFloat barHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
         CGFloat scale = [[UIScreen mainScreen] scale];
-        CGRect rect = CGRectMake(0, 20 * scale, view.bounds.size.width * scale, (view.bounds.size.height -20) * scale);
+        CGRect rect = CGRectMake(0, barHeight * scale, view.bounds.size.width * scale, (view.bounds.size.height - barHeight) * scale);
         CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
         image = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
     }
