@@ -12,7 +12,7 @@ DCModalSegue is a subclass of UIStoryboardSegue which make a slight **pushed bac
 With [CocoaPods] (http://cocoapods.org/), just add line below to your `Podfile` then `pod install`,
 
 ```
-pod 'DCModalSegue', :git => "git://github.com/zetachang/DCModalSegue.git"
+pod 'DCModalSegue'
 ```
 
 Otherwise, download manually and then drag **DCModalSegue** folder to your Xcode project.
