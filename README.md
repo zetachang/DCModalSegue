@@ -44,7 +44,7 @@ you can set up the dismiss action by control drag to the exit icon (see below) a
 
 ### Contributions
 
-As a experimental project, there are a lot could be done better. 
+As an experimental project, there are a lot could be done better. 
 So feel free to fork or submit an issue. :-)
 
 ### Thanks
