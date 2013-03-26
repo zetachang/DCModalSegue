@@ -57,4 +57,4 @@ Created by [David Chang](https://twitter.com/zetachang).
 
 ### License
 
-In short, it's MIT Licese. See file LICENSE for more info.
+It's MIT Licese. See file LICENSE for more info.
