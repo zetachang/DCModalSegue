@@ -29,10 +29,10 @@
     [self.screenshot.layer addAnimation:[self animationGroupPushedBackward] forKey:nil];
     
     [UIView animateWithDuration:kModalSeguePushedBackAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.screenshot.alpha = 0.7;
-    } completion:^(BOOL finished) {
-        [self presentViewController:self.destinationController animated:YES completion:nil];
-    }];
+     self.screenshot.alpha = 0.7;
+     } completion:^(BOOL finished) {
+     [self presentViewController:self.destinationController animated:YES completion:nil];
+     }];
 }
 
 - (void)oldDismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
@@ -128,31 +128,58 @@
 
 - (void)perform {
     DCModalViewController* modalVC = [[DCModalViewController alloc] init];
-
-    modalVC.screenshot = [self screenshotForView:[UIApplication sharedApplication].keyWindow];
+    modalVC.wantsFullScreenLayout = YES;
+    
+    modalVC.screenshot = [self screenshot];
     modalVC.destinationController = self.destinationViewController;
     modalVC.sourceController = self.sourceViewController;
     
     [self.sourceViewController presentViewController:modalVC animated:NO completion:nil];
 }
 
--(UIImageView*)screenshotForView: (UIView*) view {
-	UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [[UIScreen mainScreen] scale]);
+// The code below is derived from
+// Apple's Technical Q&A QA1703 (https://developer.apple.com/library/ios/#qa/qa1703/_index.html)
+// Copyright is belongs to Apple Inc. 
 
-    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+- (UIImageView *)screenshot
+{
+    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
     
-    if ([UIApplication sharedApplication].statusBarHidden == NO) {
-        CGFloat barHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-        CGFloat scale = [[UIScreen mainScreen] scale];
-        CGRect rect = CGRectMake(0, barHeight * scale, view.bounds.size.width * scale, (view.bounds.size.height - barHeight) * scale);
-        CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
-        image = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Iterate over every window from back to front
+    for (UIWindow *window in [[UIApplication sharedApplication] windows])
+    {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
+        {
+            // -renderInContext: renders in the coordinate space of the layer,
+            // so we must first apply the layer's geometry to the graphics context
+            CGContextSaveGState(context);
+            // Center the context around the window's anchor point
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            // Apply the window's transform about the anchor point
+            CGContextConcatCTM(context, [window transform]);
+            // Offset by the portion of the bounds left of and above the anchor point
+            CGContextTranslateCTM(context,
+                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                  -[window bounds].size.height * [[window layer] anchorPoint].y);
+            
+            // Render the layer hierarchy to the current context
+            [[window layer] renderInContext:context];
+            
+            // Restore the context
+            CGContextRestoreGState(context);
+        }
     }
     
-	UIImageView* screenshot = [[UIImageView alloc] initWithImage:image];
-    screenshot.frame = CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height);
+    // Retrieve the screenshot image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    UIImageView* screenshot = [[UIImageView alloc] initWithImage:image];
+    screenshot.frame = CGRectMake(0, 0, imageSize.width, imageSize.height);
     return screenshot;
 }
 
