@@ -47,7 +47,7 @@
         // Dismiss the presented / destination controller
         [super dismissViewControllerAnimated:YES completion:^{
             // And then dismiss DCModalViewController
-            [self oldDismissViewControllerAnimated:NO completion:nil];
+            [self oldDismissViewControllerAnimated:NO completion:completion];
         }];
     }];
 }
